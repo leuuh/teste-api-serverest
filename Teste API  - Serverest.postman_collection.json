@@ -1,0 +1,329 @@
+{
+	"info": {
+		"_postman_id": "ba99a58f-06bb-4a81-8edf-23fa98bf2be0",
+		"name": "Teste API  - Serverest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41316833"
+	},
+	"item": [
+		{
+			"name": "Criar usuário (negativo)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Cadastro deve falhar por email já existente\", function () {\r",
+							"    var res = pm.response.json();\r",
+							"    pm.expect(res.message).to.eql(\"Este email já está sendo usado\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code é 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "        {\r\n            \"nome\": \"Fulano da Silva\",\r\n            \"email\": \"fulano@qa.com\",\r\n            \"password\": \"teste\",\r\n            \"administrador\": \"true\"\r\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/usuarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar usuário (positivo)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Usuário criado com sucesso\", function () {\r",
+							"    var res = pm.response.json();\r",
+							"    pm.expect(res.message).to.eql(\"Cadastro realizado com sucesso\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code é 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "       {\r\n            \"nome\": \"Thiago Gomes\",\r\n            \"email\": \"thiagogomes@gmail.com\",\r\n            \"password\": \"teste1\",\r\n            \"administrador\": \"true\"\r\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/usuarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar usuarios por id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/usuarios/2fwZVhjpwkfBu9a4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios",
+						"2fwZVhjpwkfBu9a4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar usuarios",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status 200 OK\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Tem pelo menos 1 usuário\", () => {\r",
+							"    const res = pm.response.json();\r",
+							"    pm.expect(res.quantidade).to.be.above(0);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/usuarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar usuario existente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Falha ao editar usuário com ID inválido\", function () {\r",
+							"    pm.expect(pm.response.code).to.eql(400);\r",
+							"    const res = pm.response.json();\r",
+							"    pm.expect(res._id).to.eql(\"_id não é permitido\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "        {\r\n            \"nome\": \"Leonardo de Almeida Gomes\",\r\n            \"email\": \"leuuhprolag07@gmail.com\",\r\n            \"password\": \"teste\",\r\n            \"administrador\": \"true\",\r\n            \"_id\": \"2fwZVhjpwkfBu9a4a\"\r\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/usuarios/2fwZVhjpwkfBu9a4",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios",
+						"2fwZVhjpwkfBu9a4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deletar usuario (positivo)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"excluído com sucesso\", function () {\r",
+							"    var res = pm.response.json();\r",
+							"    pm.expect(res.message).to.eql(\"Registro excluído com sucesso\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/usuarios/A5CagzpPHTLv6M0G",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios",
+						"A5CagzpPHTLv6M0G"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deletar usuario (negativo)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code é 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Não pode ser excluido se tiver carrinho\", function () {\r",
+							"    var res = pm.response.json();\r",
+							"    pm.expect(res.message).to.eql(\"Não é permitido excluir usuário com carrinho cadastrado\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/usuarios/0uxuPY0cbmQhpEz1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios",
+						"0uxuPY0cbmQhpEz1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
